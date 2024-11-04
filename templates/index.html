@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My blogs</title>
+</head>
+<body>
+  <form action="." method="get">
+    <label>Постов на странице: {{ page_number }}</label>
+    <p></p><label for="paginate_by">Выводить по:</label>
+    <select id="paginate_by" name="paginate_by">
+      <option value="">--</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+    </select>
+    <input type="submit" value="Ok">
+  </form>
+  <div style="text-align:center">
+    <h1>Посты блога</h1>
+  </div>
+  <div>
+    {% for post in page_posts %}
+            <li>
+                {{ post.title }} ({{ post.created_at }})
+                <p>{{ post.content }}</p>
+            </li>
+        {% empty %}
+            <p>Нет постов.</p>
+        {% endfor %}
+  </div>
+      {% if page_posts.has_previous %}
+        <nav style="text-align:center; font-size:large; position:fixed; left:0; bottom:0; width:100%">
+        <li>{{ page_posts.number }}{{ paginator.num_pages }}</li>
+        <li><a href="?page=1"><<</a></li>
+        <li><a href="?page={{ page_posts.previous_page_number }}">Предыдущая</a></li>
+      {% endif %}
+
+      {% if page_posts.has_next %}
+        <nav style="text-align:center; font-size:large; position:fixed; left:0; bottom:0; width:100%">
+        <li>{{ page_posts.number }}{{ paginator.num_pages }}</li>
+        <li><a href="?page={{ page_posts.next_page_number }}">Следующая</a></li>
+        <li><a href="?page={{ page_posts.next_page_number }}">>>></a></li>
+      {% endif %}
+    </nav>
+</body>
+</html>
